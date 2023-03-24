@@ -1,0 +1,22 @@
+sudo apt-get update
+sudo apt-get install nginx
+
+
+sudo ufw app list
+
+sudo ufw allow 'Nginx HTTP'
+
+sudo ufw status
+
+systemctl status nginx
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+sudo apt install python-certbot-nginx
+
+
+sudo ufw allow 'Nginx Full' && sudo ufw delete allow 'Nginx HTTP'
+curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
+sudo bash nodesource_setup.sh
+sudo apt-get install nodejs
+sudo apt-get install build-essential
+

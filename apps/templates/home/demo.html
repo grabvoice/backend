@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GrabVoice Chatbot</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+      body {
+        background-color: #f2f2f2;
+      }
+      .container {
+        max-width: 500px;
+        margin-top: 50px;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      label {
+        font-weight: bold;
+      }
+      #chatlog {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-top: 20px;
+        height: 300px;
+        overflow-y: scroll;
+      }
+      #chatlog p {
+        margin: 10px;
+      }
+      #chatlog p:nth-child(odd) {
+        background-color: #f9f9f9;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-center">GrabVoice Chatbot Testing Demo</h1>
+      <form>
+        <div class="form-group">
+          <label for="user-input">You:</label>
+          <input type="text" class="form-control" id="user-input" name="user-input" />
+        </div>
+        <button type="button" class="btn btn-primary" id="submit-button">Send</button>
+      </form>
+      <div id="chatlog"></div>
+    </div>
+    <script>
+      const endpointUrl = "http://127.0.0.1:8000/sentence/";
+      $(document).ready(function () {
+        $("#submit-button").click(function () {
+          let userInput = $("#user-input").val();
+          if (userInput !== "") {
+            $("#chatlog").append("<p>You: " + userInput + "</p>");
+            $("#user-input").val("");
+            $.get(endpointUrl + userInput, function (data) {
+              $("#chatlog").append("<p>" + data.response + "</p>");
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+
+  <footer>
+    <p></p>
+    <h6 class="text-center">GrabVoice 2023 ©</h6>
+  </footer>
+
+</html>

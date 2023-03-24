@@ -1,0 +1,75 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hey",
+        "How are you",
+        "Is anyone there?",
+        "Hello",
+        "Good day"
+      ],
+      "responses": [
+        "Hey :-)",
+        "Do you want to listen a story?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Bye", "See you later", "Goodbye"],
+      "responses": [
+        "Once upon a time, there was a little seed that was very small and plain, but had a big dream to grow into a beautiful flower and spread joy and happiness all around, and one day it was planted in the ground which was dark and scary underground, but the seed knew it had to stay strong and keep growing, and after a few days, a tiny green stem poked its way out of the dirt, reaching for the sky, and the sun shone down on the little plant, making it grow taller and stronger every day, until finally, the plant bloomed into a beautiful flower, with petals of pink, yellow, and blue, and everyone who saw the flower smiled and felt happy, just like the little seed had always dreamed, and the flower felt proud and grateful to have fulfilled its big dream."
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": ["Thanks", "Thank you", "That's helpful", "Thank's a lot!"],
+      "responses": ["Happy to help!", "Any time!", "My pleasure"]
+    },
+    {
+      "tag": "items",
+      "patterns": [
+        "Which items do you have?",
+        "What kinds of items are there?",
+        "What do you sell?"
+      ],
+      "responses": [
+        "We sell coffee and tea",
+        "We have coffee and tea"
+      ]
+    },
+    
+    {
+      "tag": "payments",
+      "patterns": [
+        "Tell me a story!"
+      ],
+      "responses": [
+        "Once upon a time, there was a little seed that was very small and plain, but had a big dream to grow into a beautiful flower and spread joy and happiness all around, and one day it was planted in the ground which was dark and scary underground, but the seed knew it had to stay strong and keep growing, and after a few days, a tiny green stem poked its way out of the dirt, reaching for the sky, and the sun shone down on the little plant, making it grow taller and stronger every day, until finally, the plant bloomed into a beautiful flower, with petals of pink, yellow, and blue, and everyone who saw the flower smiled and felt happy, just like the little seed had always dreamed, and the flower felt proud and grateful to have fulfilled its big dream."
+      ]
+    },
+
+    {
+      "tag": "history",
+      "patterns": [
+        "Tell me a history story!"
+        ],
+      "responses": [
+        "Delivery takes 2-4 days",
+        "Shipping takes 2-4 days"
+      ]
+    },
+    {
+      "tag": "literature",
+      "patterns": [
+        "Tell Me Something Poem!",
+        "Let me know some literature"
+      ],
+      "responses": [
+        "Shall I compare thee to a summer’s day? Thou art more lovely and more temperate.",
+        "Tell me where is fancy bred, or in the heart or in the head? How begot, how nourished? Reply, reply."
+      ]
+    }
+  ]
+}
