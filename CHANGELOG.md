@@ -58,7 +58,7 @@
 ## [1.0.6] 2022-05-25
 ### Improvements
 
-- Built with [GrabVoice Generator](https://GrabVoice.us/generator/soft-ui-dashboard/)
+- Built with [GrabVoice Generator](https://grabvoice.com/generator/soft-ui-dashboard/)
   - Timestamp: `2022-05-25 10:05`
 - Added CDN/Static Server management
   - `ASSETS_ROOT` env variable

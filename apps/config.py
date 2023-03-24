@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 """
-Copyright (c) 2019 - present GrabVoice.us
+Copyright (c) 2019 - present grabvoice.com
 """
 
 import os, random, string

@@ -1,6 +1,6 @@
 # MIT License
 
-Copyright (c) 2019 - present [GrabVoice](http://GrabVoice.us/)
+Copyright (c) 2019 - present [GrabVoice](http://grabvoice.com/)
 
 <br />
 
@@ -29,4 +29,4 @@ Copyright (c) 2019 - present [GrabVoice](http://GrabVoice.us/)
 <br />
 
 ---
-For more information regarding licensing, please contact the GrabVoice Service < *support@GrabVoice.us* >
+For more information regarding licensing, please contact the GrabVoice Service < *support@grabvoice.com* >
