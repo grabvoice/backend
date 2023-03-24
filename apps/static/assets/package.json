@@ -17,10 +17,10 @@
     "url": "git+https://github.com/creativetimofficial/soft-ui-dashboard.git"
   },
   "keywords": [
-    "soft ui dashboard",
+    "GrabVoice",
     "bootstrap 5",
     "dashboard",
-    "creative tim",
+    "GrabVoice",
     "html dashboard",
     "html css dashboard",
     "web dashboard",
@@ -31,7 +31,7 @@
     "frontend",
     "responsive bootstrap dashboard"
   ],
-  "author": "Creative Tim <hello@creative-tim.com> (https://www.creative-tim.com/)",
+  "author": "GrabVoice <hello@GrabVoice.com> (https://www.GrabVoice.com/)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/creativetimofficial/soft-ui-dashboard/issues"
@@ -46,5 +46,5 @@
     "gulp-sourcemaps": "^2.6.5",
     "sass": "^1.49.9"
   },
-  "homepage": "http://creative-tim.com/product/soft-ui-dashboard"
+  "homepage": "http://GrabVoice.com/product/soft-ui-dashboard"
 }
