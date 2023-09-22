@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 """
-Copyright (c) 2019 - present grabvoice.com
+Copyright (c) 2019 - present Marita.com
 """
 
 import os, random, string

@@ -1,109 +1,1291 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %} Dashboard {% endblock title %}
+{% block title %} Dictating Workspace {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
 
-    <head>
-      <title>GrabVoice Chatbot</title>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<head>
+  <title>GrabVoice Main Panel</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+  <!--      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+  <!--      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>-->
+  <!--      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+  <script src="{{ config.ASSETS_ROOT }}/js/js/SoundRecognizer.js"></script>
+  <script src="{{ config.ASSETS_ROOT }}/js/js/jquery-3.2.1.min.js"></script>
+  <script src="{{ config.ASSETS_ROOT }}/js/js/recorder/recorder-core.js"></script>
+  <script src="{{ config.ASSETS_ROOT }}/js/js/recorder/extensions/lib.fft.js"></script>
+  <script src="{{ config.ASSETS_ROOT }}/js/js/recorder/extensions/frequency.histogram.view.js"></script>
+  <script src="{{ config.ASSETS_ROOT }}/js/js/recorder/engine/pcm.js"></script>
+  <script src="{{ config.ASSETS_ROOT }}/js/js/SoundRecognizer.js"></script>
+
+  <script src="https://unpkg.com/wavesurfer.js"></script>
+
+  <!--        <link rel="stylesheet" href="{{ config.ASSETS_ROOT }}/img/custom.css">-->
+
+
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11135446205"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'AW-11135446205');
+  </script>
+
+
+
+  <!--        <style>-->
+  <!--        body {-->
+  <!--          background-color: #f2f2f2;-->
+  <!--        }-->
+  <!--        .container {-->
+  <!--          max-width: 500px;-->
+  <!--          margin-top: 50px;-->
+  <!--        }-->
+  <!--        h1 {-->
+  <!--          text-align: center;-->
+  <!--          margin-bottom: 30px;-->
+  <!--        }-->
+  <!--        label {-->
+  <!--          font-weight: bold;-->
+  <!--        }-->
+  <!--        #chatlog {-->
+  <!--          border: 1px solid #ccc;-->
+  <!--          padding: 10px;-->
+  <!--          margin-top: 20px;-->
+  <!--          height: 300px;-->
+  <!--          overflow-y: scroll;-->
+  <!--        }-->
+  <!--        #chatlog p {-->
+  <!--          margin: 10px;-->
+  <!--        }-->
+  <!--        #chatlog p:nth-child(odd) {-->
+  <!--          background-color: #f9f9f9;-->
+  <!--        }-->
+  <!--      </style>-->
+
+</head>
+
+
+
+
+<div class="container-fluid py-5">
+  <body>
+
+  <div id="input-mode-switch">
+      <button class="btn bg-gradient-primary" type="button" id="timeLimitDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        New Patient
+      </button>
+  </div>
+
+
+
+
+<li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
+
+
+
+  <div class="d-flex flex-column">
+    <h6 class="mb-3 text-sm">New Patient: Marita</h6>
+    <span class="mb-2 text-xs">Phone Number: <span class="text-dark font-weight-bold ms-sm-2">1121131111</span></span>
+    <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">marita@marita.com</span></span>
+    <span class="text-xs">Medical ID Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
+  </div>
+  <div class="ms-auto text-end">
+    <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
+    <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+  </div>
+</li>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var audioPlayer = document.getElementById("audioPlayer");
+      var customPlayButton = document.getElementById("customPlayButton");
+      var playPauseIcon = document.getElementById("playPauseIcon");
+
+      customPlayButton.addEventListener("click", function() {
+        if (audioPlayer.paused) {
+          audioPlayer.play();
+          playPauseIcon.classList.remove("ni-button-play");
+          playPauseIcon.classList.add("ni-button-pause");
+        } else {
+          audioPlayer.pause();
+          playPauseIcon.classList.remove("ni-button-pause");
+          playPauseIcon.classList.add("ni-button-play");
+        }
+      });
+
+      audioPlayer.addEventListener("ended", function() {
+        playPauseIcon.classList.remove("ni-button-pause");
+        playPauseIcon.classList.add("ni-button-play");
+      });
+    });
+
+  </script>
+
+
+  <audio id="audioPlayer"></audio>
+
+
+
+  <script>
+    // Enable the Download WAV button
+    var downloadButton = document.getElementById("downloadButton");
+    downloadButton.disabled = false;
+
+  </script>
+
+
+  <!--            <span id="dbLevelText"></span>-->
+
+
+  <!--            <script>-->
+
+  <!--                var dbLevelTextElement = document.getElementById("dbLevelText");-->
+
+  <!--                var audioContext = new (window.AudioContext || window.webkitAudioContext)();-->
+  <!--                var mediaStreamSource = null;-->
+  <!--                var meter = null;-->
+
+  <!--                // Function to create the sound meter-->
+  <!--                function createMeter() {-->
+  <!--                    var canvas = document.createElement("canvas");-->
+  <!--                    canvas.width = 100;-->
+  <!--                    canvas.height = 10;-->
+  <!--                    canvas.style.backgroundColor = "rgba(0, 0, 0, 0.1)";-->
+  <!--                    canvas.style.borderRadius = "5px";-->
+  <!--                    canvas.style.marginTop = "10px";-->
+
+  <!--                    var ctx = canvas.getContext("2d");-->
+  <!--                    ctx.fillStyle = "green";-->
+
+  <!--                    var meter = {-->
+  <!--                        canvas: canvas,-->
+  <!--                        ctx: ctx,-->
+  <!--                        clip: 0,-->
+  <!--                        checkClipping: function() {-->
+  <!--                            if (this.clip) {-->
+  <!--                                this.ctx.fillStyle = "red";-->
+  <!--                            } else {-->
+  <!--                                this.ctx.fillStyle = "green";-->
+  <!--                            }-->
+  <!--                            this.clip = false;-->
+  <!--                        },-->
+  <!--                        update: function(val) {-->
+  <!--                            this.ctx.clearRect(0, 0, canvas.width, canvas.height);-->
+  <!--                            this.ctx.fillRect(0, 0, val * canvas.width / 100, canvas.height);-->
+  <!--                            this.checkClipping();-->
+  <!--                        }-->
+  <!--                    };-->
+
+  <!--                    document.getElementById("audioPlayer").after(canvas);-->
+
+  <!--                    return meter;-->
+  <!--                }-->
+
+  <!--                // Function to get microphone input and connect to the sound meter-->
+  <!--                function getMicrophoneInput() {-->
+  <!--                    navigator.mediaDevices-->
+  <!--                        .getUserMedia({ audio: true })-->
+  <!--                        .then(function(stream) {-->
+  <!--                            mediaStreamSource = audioContext.createMediaStreamSource(stream);-->
+
+  <!--                            meter = createMeter();-->
+
+  <!--                            var analyser = audioContext.createAnalyser();-->
+  <!--                            analyser.fftSize = 256;-->
+  <!--                            analyser.smoothingTimeConstant = 0.3;-->
+
+  <!--                            mediaStreamSource.connect(analyser);-->
+
+  <!--                            updateMeter(analyser);-->
+  <!--                        })-->
+  <!--                        .catch(function(err) {-->
+  <!--                            console.log("Mic access denied: " + err.name + ": " + err.message);-->
+  <!--                        });-->
+  <!--                }-->
+
+  <!--                // Function to update the sound meter-->
+  <!--                function updateMeter(analyser) {-->
+  <!--                    var bufferLength = analyser.frequencyBinCount;-->
+  <!--                    var dataArray = new Uint8Array(bufferLength);-->
+
+  <!--                    function update() {-->
+  <!--                        analyser.getByteFrequencyData(dataArray);-->
+
+  <!--                        var sum = dataArray.reduce((a, b) => a + b, 0);-->
+  <!--                        var average = sum / bufferLength;-->
+  <!--                        meter.update(average);-->
+  <!--                        var maxAmplitude = Math.max.apply(null, dataArray);-->
+  <!--                        // Calculate dB level-->
+  <!--                        var dB = 20 * Math.log10(maxAmplitude);-->
+
+
+  <!--                        // Update text element with dB level-->
+  <!--                        dbLevelTextElement.textContent = " Noise level:" + dB.toFixed(1) + " dB";-->
+
+  <!--                        requestAnimationFrame(update);-->
+  <!--                    }-->
+
+  <!--                    update();-->
+  <!--                }-->
+
+
+  <!--                // Call the function to get microphone input and connect to the sound meter-->
+  <!--                getMicrophoneInput();-->
+
+  <!--                // Rest of your existing code...-->
+
+  <!--            </script>-->
+
+
+  <div class="card  max-height-vh-100 max-width-1200">
+    <div class="asr-box ">
+      <div class="voice ">
+      </div>
+    </div>
+
+    <div class="card-body overflow-auto overflow-x-hidden">
+      <div class="result-text" id="resultPanel"></div>
+    </div>
+
+    <div class="card-footer d-block">
       <style>
-        body {
-          background-color: #f2f2f2;
-        }
-        .container {
-          max-width: 500px;
-          margin-top: 50px;
-        }
-        h1 {
-          text-align: center;
-          margin-bottom: 30px;
-        }
-        label {
-          font-weight: bold;
-        }
-        #chatlog {
-          border: 1px solid #ccc;
-          padding: 10px;
-          margin-top: 20px;
-          height: 300px;
-          overflow-y: scroll;
-        }
-        #chatlog p {
-          margin: 10px;
-        }
-        #chatlog p:nth-child(odd) {
-          background-color: #f9f9f9;
+        #socketUrl {
+          display: none;
         }
       </style>
-    </head>
 
-  
+      <input type="text" id="socketUrl" class="websocket-url" value="wss://grabmyvoice.com" placeholder="请输入服务器地址，如：ws://127.0.0.1:10086" hidden>
 
-    <div class="container-fluid py-4">
-      <body>
-        <div class="container">
-          <h1 class="text-center">GrabVoice Chatbot Testing Demo</h1>
-          <form>
-            <div class="form-group">
-              <label for="user-input">You:</label>
-              <input type="text" class="form-control" id="user-input" name="user-input" />
-            </div>
-            <button type="button" class="btn btn-primary" id="submit-button">Send</button>
-          </form>
-          <div id="chatlog"></div>
+
+      <button type="button" id="beginBtn" class="border-blue circle-btn">
+        <span class="fa fa-microphone" style="font-size: 25px;"></span>
+      </button>
+
+      <style>
+        .circle-btn {
+          border-radius: 50%;
+          width: 100px;
+          height: 100px;
+          /* Add any other desired styles */
+        }
+      </style>
+
+      <button type="button" id="endBtn" class="border-blue circle-btn voice-btn end">
+        <span class="fa fa-microphone-slash" style="font-size: 25px;"> </span>
+      </button>
+
+
+      <style>
+        #customPlayButton {
+          background-color: #333; /* Set the background color to a dark gray */
+          color: #fff; /* Set the text color to white */
+        }
+      </style>
+
+      <button id="customPlayButton" class="btn btn-lg btn-icon-only btn-rounded btn-outline-white mb-0 ms-4">
+        <i id="playPauseIcon" class="ni ni-button-play top-0" aria-hidden="true"></i>
+      </button>
+
+      <div id="client-word-recorder" style="position: relative;">
+        <div class="pd">
+          <div style="text-align:center;height:20px;width:100%;
+                                        border:0px solid #bcbcbc;color:#000;box-sizing: border-box;display:inline-block"
+               class="recwave">
+          </div>
         </div>
-        <script>
-          const endpointUrl = "http://127.0.0.1:8000/sentence/";
-          $(document).ready(function () {
-            $("#submit-button").click(function () {
-              let userInput = $("#user-input").val();
-              if (userInput !== "") {
-                $("#chatlog").append("<p>You: " + userInput + "</p>");
-                $("#user-input").val("");
-                $.get(endpointUrl + userInput, function (data) {
-                  $("#chatlog").append("<p>" + data.response + "</p>");
-                });
-              }
-            });
-          });
-        </script>
-      </body>
+      </div>
 
 
+      <button id="editBtn" class="btn btn-icon btn-outline-secondary ms-auto" style="position: relative;"><i class="ni ni-folder-17"></i> Upload to Cloud</button>
+
+      <a href="javascript:;" id="downloadButton" onclick="downloadWAV()" class="btn btn-icon btn-outline-secondary ms-auto" disabled>
+        <span class="btn-inner--text"><i class="fas fa-dot-circle text-danger" style="font-size: 15px; position: relative;"></i>Download Record</span>
+        <!--                  <span class="btn-inner&#45;&#45;icon ms-2" style="font-size: 25px;"><i class="ni ni-folder-17"></i></span>-->
+      </a>
 
 
-      {% include "includes/footer.html" %}
+      <script>
+        // Replace these values with the actual values from your server
+        var subscriptionStatus = "{{ current_user.subscription_status }}";
+        var userCredit = parseInt("{{ current_user.credit }}");
 
+        document.getElementById("editBtn").addEventListener("click", function() {
+          if (subscriptionStatus === 'inactive' && userCredit < 0) {
+            alert("Warning: Freemium users are limited to uploading a maximum of three files. To upload unlimited files, an upgrade is required.");
+          } else {
+            sendWAVAndTextToServer();
+          }
+        });
+
+        function sendWAVAndTextToServer() {
+          console.log("sendWAVAndTextToServer called");
+          var wavBlob = new Blob([wavFile], { type: "audio/wav" });
+          var textData = document.getElementById("resultPanel").textContent;
+
+          var formData = new FormData();
+          formData.append("audio_file", wavBlob, "recording.wav");
+          formData.append("text_data", textData);
+          formData.append("timestamp_data", JSON.stringify(timestampData));
+
+          // Show the loading spinner
+          var spinner = document.getElementById("spinner");
+          spinner.style.display = "inline-block";
+
+          fetch("/text", {
+            method: "POST",
+            body: formData,
+            credentials: "same-origin",
+          })
+                  .then((response) => {
+                    if (response.ok) {
+                      console.log("Audio file and text data uploaded successfully!");
+                      alert("Successfully uploaded!"); // Show an alert upon successful upload
+                      window.location.href = "/history"; // Redirect to the /history page
+                    } else {
+                      console.error("Error uploading audio file and text data.");
+                    }
+                  })
+                  .catch((error) => {
+                    console.error("Error:", error);
+                  })
+                  .finally(() => {
+                    // Hide the loading spinner
+                    spinner.style.display = "none";
+                  });
+        }
+      </script>
+
+      <!-- Add the Bootstrap spinner component -->
+      <div id="spinner" class="spinner-border text-primary" role="status" style="display: none;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+
+      <div id="timeBox" class="time-box flex-display-1">
+        <span class="total-time">Remain: <i id="timeCount"></i> s stop chatting</span>
+      </div>
     </div>
+  </div>
+
+
+
+
+
+
+
+  <style>
+    #input-mode-switch {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    #text-input-button, #speech-input-button {
+      margin-right: 10px;
+    }
+
+    form {
+      display: block;
+    }
+
+    .audio-experience {
+      display: none;
+    }
+
+  </style>
+
+  <script>
+    const textInputButton = document.getElementById('text-input-button');
+    const speechInputButton = document.getElementById('speech-input-button');
+    const formSection = document.querySelector('form');
+    const audioExperienceSection = document.querySelector('.audio-experience');
+
+    // Hide the form section and show the audio experience section by default
+    formSection.style.display = 'none';
+    audioExperienceSection.style.display = 'block';
+
+    textInputButton.addEventListener('click', () => {
+      formSection.style.display = 'block';
+      audioExperienceSection.style.display = 'none';
+    });
+
+    speechInputButton.addEventListener('click', () => {
+      formSection.style.display = 'none';
+      audioExperienceSection.style.display = 'block';
+    });
+
+  </script>
+
+</div>
+</body>
+</div>
+
+
+
+<style>
+  .textarea {
+    font-size: 1.2rem;
+    width: 100%;
+    height: 316px;
+    padding: 18px;
+    position: relative;
+    resize: none;
+    box-shadow: 0 12px 48px 0px rgb(109 117 141 / 20%);
+    background: rgb(255 255 255);
+    border: 0.5px solid rgb(231 233 245);
+    border-radius: 16px;
+
+  }
+
+  textarea:focus {
+    border: 0.3px solid rgb(43, 45, 56, 0.3);
+    outline: none;
+  }
+
+  .textarea-label, .subheading {
+    /*font-style: italic;*/
+    font-size: 1.2rem;
+    text-transform: capitalize;
+  }
+  /* typography********** */
+
+  /* scroll bar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #ccc;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #999;
+  }
+
+</style>
+
+
+
+{% include "includes/footer.html" %}
+
+</div>
+
+
+
 
 {% endblock content %}
 
-<!-- Specific JS goes HERE --> 
+<!-- Specific JS goes HERE -->
 {% block javascripts %}
 
-  <script>
-    const endpointUrl = "http://127.0.0.1:8000/sentence/";
-    $(document).ready(function () {
-      $("#submit-button").click(function () {
-        let userInput = $("#user-input").val();
-        if (userInput !== "") {
-          $("#chatlog").append("<p>You: " + userInput + "</p>");
-          $("#user-input").val("");
-          $.get(endpointUrl + userInput, function (data) {
-            $("#chatlog").append("<p>" + data.response + "</p>");
-          });
+
+
+
+
+
+<script>
+
+  var wenetWs = null
+  var timeLoop = null
+  var result = ""
+  var seconds = 900// Default time limit
+
+
+
+  $(document).ready(function () {
+    $('#beginBtn').on('click', startRecording)
+    $('#endBtn').on('click', stopRecording)
+  })
+
+
+  function setTimeLimit(time) {
+    seconds = time
+    const hours = Math.floor(seconds / 3600);
+    $('#timeLimitDropdown').text(`Time Limit (${hours} hours)`);
+
+    $('#timeCount').text(seconds)
+  }
+
+
+  function openWebSocket(url) {
+    if ("WebSocket" in window) {
+      wenetWs = new WebSocket(url)
+      wenetWs.onopen = function () {
+        console.log("Websocket 连接成功，开始识别")
+        wenetWs.send(JSON.stringify({
+          "signal": "start",
+          "nbest": 1,
+          "continuous_decoding": true
+        }))
+      }
+      wenetWs.onmessage = function (_msg) { parseResult(_msg.data) }
+      wenetWs.onclose = function () {
+        console.log("WebSocket 连接断开")
+        if (result.length > 0) {
+          if (result.endsWith(", ")) {
+            result = result.slice(0, -1)
+          }
+          $("#resultPanel").html(result + ".")
+          result = ""
         }
-      });
-    });
-  </script>
+      }
+      wenetWs.onerror = function () { console.log("WebSocket 连接失败") }
+    }
+  }
+
+  var timestampData;
+
+
+  function parseResult(data) {
+    var data = JSON.parse(data)
+    if (data.type == 'partial_result') {
+      nbest = JSON.parse(data.nbest)
+      var sentence = nbest[0].sentence
+      if (sentence.length > 0) {
+        $("#resultPanel").html(result + sentence)
+      }
+    } else if (data.type == 'final_result') {
+      nbest = JSON.parse(data.nbest)
+      var sentence = nbest[0].sentence
+      if (sentence.length > 0) {
+        result += sentence + ", "
+        $("#resultPanel").html(result)
+      }
+      // This is the JSON file we should send
+      console.log("this is timestamp", data);
+      timestampData = data; // set timestampData to data here
+
+      console.log(nbest)
+    }
+  }
+
+  Recorder.PCM2WAV = function(pcmData, bitRate, sampleRate) {
+    function writeString(view, offset, string) {
+      for (var i = 0; i < string.length; ++i) {
+        view.setUint8(offset + i, string.charCodeAt(i));
+      }
+    }
+
+    var buffer = new ArrayBuffer(44 + pcmData.length * 2);
+    var view = new DataView(buffer);
+
+    writeString(view, 0, 'RIFF');
+    view.setUint32(4, 32 + pcmData.length * 2, true);
+    writeString(view, 8, 'WAVE');
+    writeString(view, 12, 'fmt ');
+    view.setUint32(16, 16, true);
+    view.setUint16(20, 1, true);
+    view.setUint16(22, 1, true);
+    view.setUint32(24, sampleRate, true);
+    view.setUint32(28, sampleRate * 2, true);
+    view.setUint16(32, 2, true);
+    view.setUint16(34, bitRate, true);
+    writeString(view, 36, 'data');
+    view.setUint32(40, pcmData.length * 2, true);
+
+    for (var i = 0; i < pcmData.length; ++i) {
+      view.setInt16(44 + i * 2, pcmData[i], true);
+    }
+
+    console.log("view", view);
+    console.log("PCM2WAV is succesful");
+
+
+    return new Blob([view], { type: 'audio/wav' });
+  };
+
+
+
+  // Recorder.PCMMerge = function(fileBytesList, bitRate, sampleRate, True, False) {
+  //     //计算所有文件总长度
+  //     var size = 0;
+  //     for (var i = 0; i < fileBytesList.length; i++) {
+  //         size += fileBytesList[i].byteLength;
+  //     };
+  //
+  //     //全部直接拼接到一起
+  //     var fileBytes = new Uint8Array(size);
+  //     var pos = 0;
+  //     for (var i = 0; i < fileBytesList.length; i++) {
+  //         var bytes = fileBytesList[i];
+  //         fileBytes.set(bytes, pos);
+  //         pos += bytes.byteLength;
+  //     };
+  //
+  //     //计算合并后的总时长
+  //     var duration = Math.round(size * 8 / bitRate / sampleRate * 1000);
+  //     console.log("duration", duration);
+  //     True(fileBytes, duration, { bitRate: bitRate, sampleRate: sampleRate });
+  // };
+
+  Recorder.PCMMerge = function(fileBytesList, bitRate, sampleRate, True, False) {
+    // Calculate the total size of all files
+    var size = 0;
+    for (var i = 0; i < fileBytesList.length; i++) {
+      size += fileBytesList[i].byteLength;
+    };
+
+    // Concatenate all data into a single Uint8Array
+    var fileBytes = new Uint8Array(size);
+    var pos = 0;
+    for (var i = 0; i < fileBytesList.length; i++) {
+      var bytes = fileBytesList[i];
+      fileBytes.set(bytes, pos);
+      pos += bytes.byteLength;
+    };
+
+    // Calculate the total duration of the merged data
+    var duration = Math.round(size * 8 / bitRate / sampleRate * 1000);
+    console.log("duration", duration);
+    True(new Int16Array(fileBytes.buffer), duration, { bitRate: bitRate, sampleRate: sampleRate });
+  };
+
+
+  var pcmChunks = [];
+  var readChunks = 0; // Add a counter to keep track of the number of chunks read
+
+  //*********发送方式二：Blob二进制发送***************
+  function TransferUpload(number, blobOrNull, duration, blobRec, isClose) {
+    console.log("TransferUpload called");
+    if (blobOrNull) {
+      var blob = blobOrNull;
+      var encTime = blob.encTime;
+      var reader = new FileReader();
+
+      reader.onloadend = function () {
+        console.log("FileReader onloadend event");
+        wenetWs.send(reader.result);
+
+        blob.arrayBuffer().then(function (buffer) {
+          var byteArray = new Uint8Array(buffer);
+          console.log("Binary blob data:", byteArray);
+        });
+
+        pcmChunks.push(blob); // Append the blob to the pcmChunks list
+
+        console.log("pcmChunks before merging:", pcmChunks);
+      };
+      reader.readAsArrayBuffer(blob);
+    }
+
+    if (isClose) {
+      mergePCMChunksToWAV(); // Call mergePCMChunksToWAV when isClose is true
+    }
+  }
+
+
+
+  var wavFile; // declare the variable for the generated wav file
+
+  function mergePCMChunksToWAV() {
+    console.log("mergePCMChunksToWAV called");
+    var fileBytesList = [];
+
+    function processChunk(index) {
+      if (index < pcmChunks.length) {
+        var chunk = pcmChunks[index];
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+          var buffer = reader.result;
+          fileBytesList.push(new Uint8Array(buffer));
+          processChunk(index + 1);
+        };
+
+        reader.readAsArrayBuffer(chunk);
+      } else {
+        var bitRate = 16;
+        var sampleRate = 16000;
+
+        Recorder.PCMMerge(fileBytesList, bitRate, sampleRate, function (mergedPCMData, duration, info) {
+          console.log("Recorder.PCMMerge success callback");
+          wavFile = Recorder.PCM2WAV(mergedPCMData, bitRate, sampleRate);
+
+          var audioPlayer = document.getElementById("audioPlayer");
+          audioPlayer.src = URL.createObjectURL(wavFile);
+
+          var downloadButton = document.getElementById("downloadButton");
+          downloadButton.disabled = false;
+
+          console.log("Merged PCM data:", mergedPCMData);
+
+        }, function (err) {
+          console.error("Error merging PCM chunks:", err);
+        });
+      }
+    }
+
+    processChunk(0);
+  }
+
+
+  function downloadWAV() {
+    console.log("downloadWAV called");
+    var wavBlob = new Blob([wavFile], { type: "audio/wav" });
+    var wavUrl = URL.createObjectURL(wavBlob);
+
+
+    console.log("WAV Blob data!!!!!!!!:", wavBlob);
+
+    var downloadLink = document.createElement("a");
+    downloadLink.href = wavUrl;
+    downloadLink.download = "recording.wav";
+
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+
+    URL.revokeObjectURL(wavUrl);
+    downloadLink.remove();
+  }
+
+  // function sendWAVAndTextToServer() {
+  //     console.log("sendWAVAndTextToServer called");
+  //     var wavBlob = new Blob([wavFile], { type: "audio/wav" });
+  //     var textData = document.getElementById("resultPanel").textContent;
+  //
+  //     var formData = new FormData();
+  //     formData.append("audio_file", wavBlob, "recording.wav");
+  //     formData.append("text_data", textData);
+  //
+  //     fetch("/text", {
+  //         method: "POST",
+  //         body: formData,
+  //     })
+  //         .then((response) => {
+  //             if (response.ok) {
+  //                 console.log("Audio file and text data uploaded successfully!");
+  //                 location.reload();
+  //             } else {
+  //                 console.error("Error uploading audio file and text data.");
+  //             }
+  //         })
+  //         .catch((error) => {
+  //             console.error("Error:", error);
+  //         });
+  // }
+
+
+  // 检查是否已经授予录音权限
+  navigator.mediaDevices.getUserMedia({ audio: true })
+          .then(function(stream) {
+            // 如果没有权限，提示用户授予权限
+            console.log('Microphone access granted');
+          })
+          .catch(function(err) {
+            // 如果没有权限，提示用户授予权限
+            console.log('Microphone access denied', err);
+            alert('Your Microphone access has been denied in your browser. Please turn on.');
+          });
+
+  function startRecording() {
+    // Check socket url
+    var socketUrl = $('#socketUrl').val()
+    if (!socketUrl.trim()) {
+      alert('请输入 WebSocket 服务器地址，如：ws://127.0.0.1:10086')
+      $('#socketUrl').focus()
+      return
+    }
+
+    navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(function(stream) {
+              console.log('Mic access granted')
+            })
+            .catch(function(err) {
+              console.log('Mic access denied: ' + err.name + ': ' + err.message)
+            })
+
+    // init recorder
+    SoundRecognizer.init({
+      soundType: 'pcm',
+      sampleRate: 16000,
+      recwaveElm: '.recwave',
+      translerCallBack: TransferUpload
+    })
+    openWebSocket(socketUrl)
+
+    // Change button state
+    $('#beginBtn').hide()
+    $('#endBtn, #timeBox').addClass('show')
+    $('#timeCount').text(seconds)
+    timeLoop = setInterval(function () {
+      seconds--
+      $('#timeCount').text(seconds)
+      if (seconds === 0) {
+        stopRecording()
+      }
+    }, 1000)
+  }
+
+  function stopRecording() {
+    wenetWs.send(JSON.stringify({ "signal": "end" }))
+    SoundRecognizer.recordClose()
+
+    $('#endBtn').add($('#timeBox')).removeClass('show')
+    $('#beginBtn').show()
+    $('#timeCount').text('')
+    clearInterval(timeLoop)
+
+    // Set the resultPanel content as the value of the inputText element and submit the form
+    $('#inputText').val($('#resultPanel').text());
+    // $('#resultForm').submit();
+  }
+
+
+
+</script>
+
+
+
+
+<style>
+  /*
+  * @Author: baipengxia
+  * @Date:   2021-03-12 11:44:28
+  * @Last Modified by:   baipengxia
+  * @Last Modified time: 2021-03-12 15:14:24
+  */
+
+
+
+
+
+  button,
+  input,
+  select,
+  textarea {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 18px;
+  }
+
+  h2 {
+    font-size: 14px;
+  }
+
+  h3 {
+    font-size: 14px;
+  }
+
+  ul,
+  ol,
+  li {
+    list-style: none;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  fieldset,
+  img {
+    border: none;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  /*i {*/
+  /*    font-style: normal;*/
+  /*}*/
+
+  label {
+    position: inherit;
+  }
+
+  .clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+
+  .clearfix {
+    zoom: 1;
+    display: block;
+  }
+
+
+
+
+  .audio-banner {
+    width: 100%;
+    overflow: auto;
+    padding: 0;
+    background: url('../image/voice-dictation.svg');
+    background-size: cover;
+  }
+  .weaper {
+    width: 1200px;
+    height: 155px;
+    margin: 72px auto;
+  }
+  .text-content {
+    width: 670px;
+    height: 100%;
+    float: left;
+  }
+  .text-content .title {
+    font-size: 34px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    line-height: 48px;
+  }
+  .text-content .con {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 1);
+    line-height: 50px;
+  }
+  .img-con {
+    width: 416px;
+    height: 100%;
+    float: right;
+  }
+  .img-con img {
+    width: 100%;
+    height: 100%;
+  }
+  .con-container {
+    margin-top: 34px;
+  }
+
+
+  .audio-advantage {
+    background: #f8f9fa;
+  }
+  .asr-advantage {
+    width: 1200px;
+    margin: 0 auto;
+  }
+  .asr-advantage h2 {
+    text-align: center;
+    font-size: 22px;
+    padding: 30px 0 0 0;
+  }
+  .asr-advantage > ul > li {
+    box-sizing: border-box;
+    padding: 0 16px;
+    width: 33%;
+    text-align: center;
+    margin-bottom: 35px;
+  }
+  .asr-advantage > ul > li .icons{
+    margin-top: 10px;
+    margin-bottom: 20px;
+    width: 42px;
+    height: 42px;
+  }
+  .service-item-content {
+    margin-top: 35px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .service-item-content img {
+    width: 160px;
+    vertical-align: bottom;
+  }
+  .service-item-content > li {
+    box-sizing: border-box;
+    padding: 0 16px;
+    width: 33%;
+    text-align: center;
+    margin-bottom: 35px;
+  }
+  .service-item-content > li .service-item-content-title {
+    line-height: 1.5;
+    font-weight: 700;
+    margin-top: 10px;
+  }
+  .service-item-content > li .service-item-content-desc {
+    margin-top: 5px;
+    line-height: 1.8;
+    color: #657384;
+  }
+
+
+  .audio-scene-con {
+    width: 100%;
+    padding-bottom: 84px;
+    background: #fff;
+  }
+  .audio-scene {
+    overflow: auto;
+    width: 1200px;
+    background: #fff;
+    text-align: center;
+    padding: 0;
+    margin: 0 auto;
+  }
+  .audio-scene h2 {
+    padding: 30px 0 0 0;
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .audio-experience {
+    width: 100%;
+    height: 538px;
+    background: #fff;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+  }
+
+
+  /*.asr-box {*/
+  /*    width: 90%;*/
+  /*    height: 394px;*/
+  /*    margin: 34px auto;*/
+  /*}*/
+
+  /*@media screen and (max-width: 767px) {*/
+  /*    .asr-box {*/
+  /*        margin: 12px auto;*/
+  /*        height: auto;*/
+  /*    }*/
+  /*}*/
+
+  .asr-box h2 {
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  .voice-container {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    max-width: 1200px;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 1px;
+    border: 1px solid rgba(225, 225, 225, 1);
+  }
+
+  @media (max-width: 767px) {
+    .voice-container {
+      height: 200px;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    .voice-container {
+      height: 250px;
+    }
+  }
+
+
+  .voice-container .voice {
+    height: 236px;
+    width: 100%;
+    border-radius: 1px;
+  }
+  .voice-container .voice textarea {
+    height: 100%;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-radius: 1px;
+    padding: 25px;
+    font-size: 14px;
+    box-sizing: border-box;
+    resize: none;
+  }
+  .voice-input {
+    width: 100%;
+    height: 72px;
+    box-sizing: border-box;
+    padding-left: 35px;
+    background: rgba(242, 244, 245, 1);
+    border-radius: 1px;
+    line-height: 72px;
+  }
+  .voice-input .el-select {
+    width: 492px;
+  }
+  .start-voice {
+    display: inline-block;
+    margin-left: 10px;
+  }
+  .start-voice .time {
+    margin-right: 25px;
+  }
+  .asr-advantage > ul > li {
+    margin-bottom: 77px;
+  }
+  #msg {
+    width: 100%;
+    line-height: 40px;
+    font-size: 14px;
+    margin-left: 330px;
+  }
+  #captcha {
+    margin-left: 350px !important;
+    display: inline-block;
+    position: relative;
+  }
+  .black {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    background: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+  }
+  .container {
+    position: fixed;
+    z-index: 6;
+    top: 25%;
+    left: 10%;
+  }
+  .audio-scene-con {
+    width: 100%;
+    padding-bottom: 84px;
+    background: #fff;
+  }
+  #sound {
+    color: #fff;
+    cursor: pointer;
+    background: #147ede;
+    padding: 10px;
+    margin-top: 30px;
+    margin-left: 135px;
+    width: 176px;
+    height: 30px !important;
+    text-align: center;
+    line-height: 30px !important;
+    border-radius: 10px;
+  }
+  .con-ten {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    background: #fff;
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+  }
+  .websocket-url {
+    width: 320px;
+    height: 20px;
+    border: 1px solid #dcdfe6;
+    line-height: 20px;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  .voice-btn {
+    /*color: #fff;*/
+    background-color: white;
+    /*font-weight: 200;*/
+    /*padding: 5px 5px; !* Increase padding for larger button *!*/
+    /*font-size: 18px;    !* Increase font size *!*/
+    /*border-radius: 1px; !* Increase border radius for rounder corners *!*/
+    /*border: 0;*/
+    /*cursor: pointer;*/
+  }
+  .voice-btn.end {
+    display: none;
+  }
+  .result-text {
+    background: #fff;
+    padding: 20px;
+  }
+  .voice-footer {
+    border-top: 1px solid #dddede;
+    background: #f7f9fa;
+    text-align: center;
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 12px;
+    padding: 20px 0;
+  }
+
+  /** line animate **/
+  .time-box {
+    display: none;
+    margin-left: 10px;
+    width: 300px;
+  }
+  .total-time {
+    font-size: 14px;
+    color: #545454;
+  }
+  .voice-btn.end.show,
+  .time-box.show {
+    display: inline;
+  }
+  .start-taste-line {
+    margin-right: 20px;
+    display: inline-block;
+  }
+  .start-taste-line hr {
+    background-color: #187cff;
+    width: 3px;
+    height: 8px;
+    margin: 0 3px;
+    display: inline-block;
+    border: none;
+  }
+  .hr {
+    animation: note 0.2s ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+  }
+  .hr-one {
+    animation-delay: -0.9s;
+  }
+  .hr-two {
+    animation-delay: -0.8s;
+  }
+  .hr-three {
+    animation-delay: -0.7s;
+  }
+  .hr-four {
+    animation-delay: -0.6s;
+  }
+  .hr-five {
+    animation-delay: -0.5s;
+  }
+  .hr-six {
+    animation-delay: -0.4s;
+  }
+  .hr-seven {
+    animation-delay: -0.3s;
+  }
+  .hr-eight {
+    animation-delay: -0.2s;
+  }
+  .hr-nine {
+    animation-delay: -0.1s;
+  }
+  @keyframes note {
+    from {
+      transform: scaleY(1);
+    }
+    to {
+      transform: scaleY(4);
+    }
+  }
+</style>
 
 {% endblock javascripts %}

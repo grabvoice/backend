@@ -17,10 +17,10 @@
     "url": "git+https://github.com/creativetimofficial/soft-ui-dashboard.git"
   },
   "keywords": [
-    "GrabVoice",
+    "Marita",
     "bootstrap 5",
     "dashboard",
-    "GrabVoice",
+    "Marita",
     "html dashboard",
     "html css dashboard",
     "web dashboard",
@@ -31,7 +31,7 @@
     "frontend",
     "responsive bootstrap dashboard"
   ],
-  "author": "GrabVoice <hello@GrabVoice.com> (https://www.GrabVoice.com/)",
+  "author": "Marita <hello@Marita.com> (https://www.Marita.com/)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/creativetimofficial/soft-ui-dashboard/issues"
@@ -46,5 +46,5 @@
     "gulp-sourcemaps": "^2.6.5",
     "sass": "^1.49.9"
   },
-  "homepage": "http://GrabVoice.com/product/soft-ui-dashboard"
+  "homepage": "http://Marita.com/product/soft-ui-dashboard"
 }
